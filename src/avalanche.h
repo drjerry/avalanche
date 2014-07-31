@@ -16,6 +16,10 @@ typedef struct {
     double* vals;
 } matrix_t;
 
+// macros for enforcing row-major layout of matrix
+#define MATRIX_GET(M, ROW, COL) ((M)->vals[(ROW) * (M)->n_cols + (COL)])
+#define MATRIX_SET(M, ROW, COL, VAL) ((M)->vals[(ROW) * (M)->n_cols + (COL)] = (VAL))
+
 /** Avalanche test for hash function.
 
  All test keys are read successively from the stream `ins`, and the probability
