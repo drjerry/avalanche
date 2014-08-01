@@ -1,5 +1,5 @@
 
-## Intro
+## You Don't Know Jack About Hashing
 
 The challenge of building a good hashing algorithm (or hash function) is
 a perenial problem in computer science. Focusing on non-cryptographic
@@ -19,17 +19,13 @@ common.
 
 _(Add more detail about what's the point?)_
 
-Almost all discussions of how to design a hash function mention two common
-desired characteristics: avoiding collisions, and performance. The Chartbeat
-Engineering team recently engaged in a friendly competition to produce a
-hash function that meets the following criterion:
+Almost all discussions of how to design non-cryptographic hash function mention two common desired characteristics: avoiding collisions, and performance. The Chartbeat Engineering team recently engaged in a friendly competition to produce a hash function that meets the following criterion:
 
 - its return type needs to be 128-bits
-- it must avoid collisions on ASCII strings of arbitrary length, usually
-  at most one kilobyte in size
+- it must avoid collisions on at least one billion ASCII strings of arbitrary   length, usually at most one kilobyte in size
 - it must be written in JavaScript (ouch!)
-- and the "minified" (compiled) JavaScript function must be as small as
-  possible, idealy under 512 bytes.
+- the "minified" (compiled) JavaScript function must be as small as
+  possible, idealy under 512 bytes
 
 
 ## FNV Variant
