@@ -1,17 +1,22 @@
 CC=clang
 CFLAGS = -I$(abspath src)
-export CFLAGS
 
-AR=libtool
-ARFLAGS=-static
+.PHONY:all
+# list all TARGETS here:
+all: bin bin/fnv_32 bin/fnv_mw
 
-libavalanche.a: src/avalanche.o
-	$(AR) $(ARFLAGS) -o $@ $<
+SOURCES = src/avalanche.c
+HEADERS = src/avalanche.h
 
-tests: libavalanche.a
-	cd test && $(MAKE)
+bin:
+	mkdir -p bin
+
+bin/fnv_32: examples/fnv_1a.c $(SOURCES) $(HEADERS)
+	$(CC) $(CFLAGS) -o $@ $< $(SOURCES)
+
+bin/fnv_mw: examples/fnv_1a.c $(SOURCES) $(HEADERS)
+	$(CC) $(CFLAGS) -DMULTI_WORD -o $@ $< $(SOURCES)
 
 clean:
-	$(RM) *.a
 	cd src && $(MAKE) clean
-	cd test && $(MAKE) clean
+	$(RM) bin/*
