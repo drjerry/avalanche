@@ -1,6 +1,6 @@
 /* avalanche_test.c
  */
-#include <avalanche.h>
+#include "avalanche.h"
 #include <assert.h>
 #include <stdio.h>
 
