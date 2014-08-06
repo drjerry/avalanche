@@ -33,9 +33,7 @@ a string of raw bytes, and returns an integer. The "size" of the hash function
 refers to the size of its return type. For instance, the `.hashCode()` method
 in Java returns a 32-bit integer; 64-bit and 128-bit return types are also
 common. Hashing serves many purposes but it is primarily used to quickly
-compare or index large sets of data. At Chartbeat, we hash browser strings
-along with some other basic information in order to track the behavior
-of over 1 billion visitors to our client sites.
+compare or index large sets of data.
 
 
 ## FNV Variant
