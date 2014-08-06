@@ -1,6 +1,23 @@
 
 ## You Don't Know Jack About Hashing
 
+Hashing is a difficult problem but the challenge doesn't lie where one might think. The Chartbeat Engineering team recently engaged in a friendly competition to produce a hash function that meets the following criterion:
+
+- its return type needs to be 128-bits
+- it must avoid collisions on at least one billion ASCII strings of arbitrary length, usually at most one kilobyte in size
+- it must be written in JavaScript (ouch!)
+- the "minified" (compiled) JavaScript function must be as small as
+  possible, idealy under 512 bytes
+
+Almost all discussions of how to design non-cryptographic hash function 
+mention two common desired characteristics: avoiding collisions, and 
+performance so when we started, most of us thought that the real challenge would be 
+creating a lightweight hashing function that could successfully hash 
+a billion items quickly because let's face it, a billion is a lot of things. 
+It turns out, hashing a billion items without collision is fairly 
+trivial but producing said hashes 
+
+First let's go into a little background about hashing functions. 
 The challenge of building a good hashing algorithm (or hash function) is
 a perenial problem in computer science. Focusing on non-cryptographic
 hash functions, however, one is tempted to claim that this problem is solved.
@@ -11,26 +28,19 @@ A couple general purpose hash functions are the
 The documentation around each of these is a great place to start reading
 to get a sense on the state of the art of non-cryptographic hashing.
 
-Let's back up for a minute. By definition, a hash function takes as input
+By definition, a hash function takes as input
 a string of raw bytes, and returns an integer. The "size" of the hash function
 refers to the size of its return type. For instance, the `.hashCode()` method
 in Java returns a 32-bit integer; 64-bit and 128-bit return types are also
-common.
-
-_(Add more detail about what's the point?)_
-
-Almost all discussions of how to design non-cryptographic hash function mention two common desired characteristics: avoiding collisions, and performance. The Chartbeat Engineering team recently engaged in a friendly competition to produce a hash function that meets the following criterion:
-
-- its return type needs to be 128-bits
-- it must avoid collisions on at least one billion ASCII strings of arbitrary   length, usually at most one kilobyte in size
-- it must be written in JavaScript (ouch!)
-- the "minified" (compiled) JavaScript function must be as small as
-  possible, idealy under 512 bytes
+common. Hashing serves many purposes but it is primarily used to quickly
+compare or index large sets of data. At Chartbeat, we hash browser strings
+along with some other basic information in order to track the behavior
+of over 1 billion visitors to our client sites.
 
 
 ## FNV Variant
 
-The obvious first pass for a submission is to start with existing simple
+The obvious first pass for our submission was to start with an existing simple
 hash function and modify it in some way. Fortunately, not only are many
 non-cryptographic functions not only open source, many are public domain.
 One such is the [FNV family](http://www.isthe.com/chongo/tech/comp/fnv/).
@@ -100,3 +110,4 @@ of 4 integers, we get something like
         return h[0].toString(16) + h[1].toString(16) + h[2].toString(16) + h[3].toString(16);
     }
 
+It turns out that our hacky algorithm managed to be collision free.
