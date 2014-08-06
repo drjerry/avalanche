@@ -110,7 +110,7 @@ of 4 integers, we get something like
         return h[0].toString(16) + h[1].toString(16) + h[2].toString(16) + h[3].toString(16);
     }
 
-## Results
+## Victory?
 It turns out that our hacky algorithm managed to hash 1 billion unique strings 
 without collision and squeezed in at a meager 214 bytes minified and gzipped.
 Not bad at all. But before we could celebrate Jerry Gagleman, holding a Doctorate
@@ -124,3 +124,34 @@ and retrying this experiment for each and each domino, every item in the set sho
 have been affected. When all is said and done, we can create a probabilty map for each
 bit representing the likelihood that it will be changed if another bit changes.
 
+The main part of the testing code which tests whether the j-th bit will be affected
+if the i-th bit is flipped looks like this:
+
+    for (size_t i_byte = 0; i_byte < key_size; ++i_byte) {
+            for (size_t i_bit = 0; i_bit < 8; ++i_bit) {
+                size_t row = i_byte * 8 + i_bit;
+
+                // flip the i-th bit of this byte and re-hash
+                char i_mask = 0x80 >> i_bit;
+                key[i_byte] ^= i_mask;
+                hash(key, key_size, htemp);
+                key[i_byte] ^= i_mask;
+
+                for (size_t j_word = 0; j_word < hash_words; ++j_word) {
+                    for (size_t j_bit = 0; j_bit < 32; ++j_bit) {
+                        size_t col = j_word * 32 + j_bit;
+
+                        // test whether hvalue & htemp differ at j-th bit.
+                        uint32_t j_mask = 0x80000000 >> j_bit;
+                        if ((hvalue[j_word] ^ htemp[j_word]) & j_mask) {
+                            double curr = MATRIX_GET(results, row, col);
+                            MATRIX_SET(results, row, col, curr + 1);
+                        }
+                    }
+                }
+            }
+        }
+        
+## Results 
+
+_insert map of the results_
