@@ -110,4 +110,17 @@ of 4 integers, we get something like
         return h[0].toString(16) + h[1].toString(16) + h[2].toString(16) + h[3].toString(16);
     }
 
-It turns out that our hacky algorithm managed to be collision free.
+## Results
+It turns out that our hacky algorithm managed to hash 1 billion unique strings 
+without collision and squeezed in at a meager 214 bytes minified and gzipped.
+Not bad at all. But before we could celebrate Jerry Gagleman, holding a Doctorate
+in Mathematics and all, decided that we should test the robustness the algorithm before
+declaring victory. We went about testing this non-crytographic hashing function
+by testing it's avalanche characteristics, that is if we flip one bit does it affect
+all of the other bits in the string. To put it another way, imagine the bits of the string
+that you're hashing are bunch of dominos. When you knock over one domino, at least some
+of the other dominos should be be knocked over such that, after reseting the dominos
+and retrying this experiment for each and each domino, every item in the set should 
+have been affected. When all is said and done, we can create a probabilty map for each
+bit representing the likelihood that it will be changed if another bit changes.
+
