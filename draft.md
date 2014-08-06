@@ -155,3 +155,12 @@ if the i-th bit is flipped looks like this:
 ## Results 
 
 _insert map of the results_
+
+So it turns out that our lightweight hashing algorithm had some serious problems.
+As you can clearly see, there are distinct patterns highlighting the fact that no matter
+which bit is flipped, some bits are never affected ultimately making this a poor choice
+for a production hashing function.
+
+The overall conclusion is that when having any sort of discussion about non-cryptographic
+hashing functions, one must talk not only about performance and size but also the avalanche
+characteristics of said function. 
